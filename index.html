@@ -846,8 +846,19 @@
     }
 
     function escapeAttr(str) {
-      return escapeHtml(str);
-    }
+      return escapeHtml(str);}
+    fetch('./agency_jobs_latest.csv')
+  .then(res => res.text())
+  .then(csv => {
+    const rows = parseCsv(csv);
+    state.rows = rows.map(normalizeRow);
+    populateSiteFilter();
+    syncMetricsBase();
+    applyFilters();
+  })
+  .catch(err => {
+    console.error('CSV自動読込失敗:', err);
+  });
   </script>
 </body>
 </html>
